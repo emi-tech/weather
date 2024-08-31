@@ -1,0 +1,283 @@
+<!--
+  THIS EXAMPLE WAS DOWNLOADED FROM https://echarts.apache.org/examples/en/editor.html?c=gauge-clock&theme=dark
+-->
+<!DOCTYPE html>
+<html lang="en" style="height: 100%">
+
+<head>
+  <meta charset="utf-8">
+</head>
+
+<body style="height: 100%; margin: 0">
+  <div id="container" style="height: 320px"></div>
+
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+
+  <!-- Uncomment this line if you want to dataTool extension
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.5.1/dist/extension/dataTool.min.js"></script>
+  -->
+  <!-- Uncomment this line if you want to use gl extension
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts-gl@2/dist/echarts-gl.min.js"></script>
+  -->
+  <!-- Uncomment this line if you want to echarts-stat extension
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts-stat@latest/dist/ecStat.min.js"></script>
+  -->
+  <!-- Uncomment this line if you want to echarts-graph-modularity extension
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts-graph-modularity@2/dist/echarts-graph-modularity.min.js"></script>
+  -->
+  <!-- Uncomment this line if you want to use map
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@4.9.0/map/js/world.js"></script>
+  -->
+  <!-- Uncomment these two lines if you want to use bmap extension
+  <script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=YOUR_API_KEY"></script>
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.5.1/dist/extension/bmap.min.js"></script>
+  -->
+
+  <script type="text/javascript">
+    var dom = document.getElementById('container');
+    var myChart = echarts.init(dom, 'dark', {
+      renderer: 'canvas',
+      useDirtyRect: false
+    });
+    var app = {};
+
+    var option;
+
+    option = {
+      series: [
+        {
+          name: 'cardinal',
+          type: 'gauge',
+          zlevel: 1000,
+          startAngle: 90,
+          endAngle: -270,
+          min: 0,
+          max: 1,
+          splitNumber: 8,
+          clockwise: true,
+          axisLine: {
+            lineStyle: {
+              width: 0,
+              color: [[1, 'rgba(0,0,0,0.7)']],
+              shadowColor: 'rgba(0, 0, 0, 0.5)',
+              shadowBlur: 15
+            }
+          },
+          axisLine: {
+            show: false
+          },
+          splitLine: {
+            show: false
+          },
+          axisTick: {
+            show: true,
+            splitNumber: 1,
+            distance: -4,
+            length: 18,
+            lineStyle: {
+              color: '#00ff00',
+              width: 1.5,
+              type: 'solid',
+            }
+          },
+          axisLabel: {
+            color: '#00ff00',
+            fontSize: 13,
+            distance: 24,
+            rotate: 0,
+            // padding: [-3, 0, -5, -5],
+            formatter: function (value) {
+              if (value === 0) {
+                return 'N';
+              } else if (value === 0.125) {
+                return 'NE';
+              } else if (value === 0.25) {
+                return 'E';
+              } else if (value === 0.375) {
+                return 'SE';
+              } else if (value === 0.5) {
+                return 'S';
+              } else if (value === 0.625) {
+                return 'SW';
+              } else if (value === 0.75) {
+                return 'W';
+              } else if (value === 0.875) {
+                return 'NW';
+              }
+              return '';
+            }
+          },
+          pointer: {
+            width: 0,
+            length: '0%',
+          },
+          detail: {
+            show: true,
+            fontSize: 22,
+            width: 30,
+            height: 40,
+            borderWidth: 0,
+            borderType: 'solid',
+            borderRadius: 50,
+            offsetCenter: [2, '0%'],
+            backgroundColor: '#63677A',
+            formatter: [
+              '{a|{value}}',
+              '{b|mph}'
+            ].join('\n'),
+            rich: {
+              a: {
+                fontSize: 26,
+                color: 'white',
+                fontFamily: 'sans-serif',
+                padding: [10, 0, 0, 0]
+
+              },
+              b: {
+                fontSize: 10,
+                color: 'white',
+                fontFamily: 'sans-serif',
+                padding: [0, 0, 20, 0]
+              },
+            }
+          },
+          title: {
+            offsetCenter: [0, '30%']
+          },
+          data: [
+            {
+              value: 8
+            }
+          ]
+        },
+        {
+          name: 'direction',
+          type: 'gauge',
+          zlevel: 0,
+          startAngle: 90,
+          endAngle: -270,
+          min: 0,
+          max: 360,
+          splitNumber: 18,
+          clockwise: true,
+          axisLine: {
+            lineStyle: {
+              width: 4,
+              color: [[1, '#444']],
+              // shadowColor: 'rgba(0, 0, 0, 0.5)',
+              // shadowBlur: 2
+            }
+          },
+          splitLine: {
+            lineStyle: {
+              shadowColor: 'rgba(0, 0, 0, 0.3)',
+              shadowBlur: 3,
+              shadowOffsetX: 1,
+              shadowOffsetY: 2
+            }
+          },
+          axisLabel: {
+            fontSize: 10,
+            distance: 8,
+            rotate: 0,
+            formatter: function (value) {
+              if (value === 360) {
+                return '0';
+              }
+              return value + '';
+            }
+          },
+          axisTick: {
+            show: true,
+            splitNumber: 5,
+            distance: 2,
+            // length: 28,
+            lineStyle: {
+              color: '#63677A',
+              width: 2,
+              type: 'solid',
+            }
+          },
+          pointer: {
+            icon: 'path://M12.8,0.7l12,40.1H0.7L12.8,0.7z',
+            // icon: 'path://M2.9,0.7L2.9,0.7c1.4,0,2.6,1.2,2.6,2.6v115c0,1.4-1.2,2.6-2.6,2.6l0,0c-1.4,0-2.6-1.2-2.6-2.6V3.3C0.3,1.9,1.4,0.7,2.9,0.7z',
+            width: 14,
+            length: '36%',
+            offsetCenter: [0, '-55%'],
+            itemStyle: {
+              color: '#FF0000',
+              shadowColor: 'rgba(0, 0, 0, 0.3)',
+              shadowBlur: 8,
+              shadowOffsetX: 2,
+              shadowOffsetY: 4
+            }
+          },
+          detail: {
+            show: true,
+            width: 26,
+            height: 10,
+            offsetCenter: [2, '-40%'],
+            borderWidth: 0,
+            borderType: 'solid',
+            borderRadius: 5,
+            // padding: [15, 0, -5, 0],
+            // lineHeight: 10,
+            backgroundColor: '#63677A',
+            formatter: '{a|{value}°}',
+            rich: {
+              a: {
+                fontSize: 16,
+                color: 'white',
+                lineHeight: 13
+              },
+            }
+          },
+          title: {
+            offsetCenter: [0, '30%']
+          },
+          data: [
+            {
+              value: 0
+            }
+          ]
+        },
+
+      ],
+
+    };
+    setInterval(function () {
+      var date = new Date();
+      var windDirection = Math.round(Math.random() * 360); //date.getSeconds();
+      var windSpeed = Math.round(Math.random() * 160);
+      option.animationDurationUpdate = 300;
+      myChart.setOption({
+        series: [
+          {
+            name: 'direction',
+            animation: windDirection !== 0,
+            data: [{ value: windDirection }]
+          },
+          {
+            name: 'cardinal',
+            animation: windSpeed !== 0,
+            data: [{ value: windSpeed }]
+          },
+          // {
+          //   animation: second !== 0,
+          //   name: 'second',
+          //   data: [{ value: second }]
+          // }
+        ]
+      });
+    }, 5000);
+
+    if (option && typeof option === 'object') {
+      myChart.setOption(option);
+    }
+
+    window.addEventListener('resize', myChart.resize);
+  </script>
+</body>
+
+</html>
+
